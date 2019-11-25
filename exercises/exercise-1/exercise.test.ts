@@ -403,55 +403,55 @@ test("supersets and structural compatibility", () => {
   type _t2 = AssertAssignable<FlavoredFoodItem, FoodItem>;
 });
 
-/*  WHEN YOU UNCOMMENT THESE TESTS: 
+/*  WHEN YOU UNCOMMENT THESE TESTS:
 *   To uncomment a single test, uncomment from one star-line to the next.
 *   Have `npm run exercise-1` running in your terminal. When you uncomment
 *   a test and save the file, you should see a test failure in your terminal.
 *   Keep working until you save the file and see the tests pass in your terminal.
-*   Good luck! 
+*   Good luck!
 */
 // /**************************************************************************/
-// test("Writing our own types", () => {
-//   /*
-//    * ======================================================
-//    * TODO: Update the definition of FixThisType to allow 
-//    * strings only.
-//    * ======================================================*/
-//   type FixThisType = any;
-//   let jaime: FixThisType = "Jaime"
-//   let meredith: FixThisType = "Meredith"
-//   // typings:expect-error
-//   let no: FixThisType = false;
-// })
+test("Writing our own types", () => {
+  /*
+   * ======================================================
+   * TODO: Update the definition of FixThisType to allow
+   * strings only.
+   * ======================================================*/
+  type FixThisType = string;
+  let jaime: FixThisType = "Jaime"
+  let meredith: FixThisType = "Meredith"
+  // typings:expect-error
+  let no: FixThisType = false;
+})
 // /**************************************************************************/
 
 // /**************************************************************************/
-// test("Writing some object types", () => {
-//   /*
-//    * ======================================================
-//    * TODO: Update FixThisOneToo to allow objects with a kind
-//    * and a disposition.
-//    * ======================================================*/
-//   type FixThisOneToo = any;
-//   let nellie: FixThisOneToo = { kind: "dog", disposition: "good" }
-//   let roxy: FixThisOneToo = { kind: "dog", disposition: "aloof" }
-//   // typings:expect-error
-//   let friday: FixThisOneToo = { kind: "cat", fluffy: "very" }
-//   // typings:expect-error
-//   let cauchy: FixThisOneToo = { kind: "cat", fluffy: "not really" }
-// })
+test("Writing some object types", () => {
+  /*
+   * ======================================================
+   * TODO: Update FixThisOneToo to allow objects with a kind
+   * and a disposition.
+   * ======================================================*/
+  type FixThisOneToo = { kind: string, disposition: string };
+  let nellie: FixThisOneToo = { kind: "dog", disposition: "good" }
+  let roxy: FixThisOneToo = { kind: "dog", disposition: "aloof" }
+  // typings:expect-error
+  let friday: FixThisOneToo = { kind: "cat", fluffy: "very" }
+  // typings:expect-error
+  let cauchy: FixThisOneToo = { kind: "cat", fluffy: "not really" }
+})
 // /**************************************************************************/
 
 // /**************************************************************************/
-// test("Writing some function types", ()=>{
-//   /*
-//    * ======================================================
-//    * TODO: Update AndThisOne to allow a function that takes
-//    * a string and returns a string.
-//    * ======================================================*/
-//   type AndThisOne = any;
-//   let sayHello: AndThisOne = (name: string) => { return `Hello, ${name}.`}
-//   let sayGoodbye: AndThisOne = (name: string) => { return `Goodbye, ${name}.`}
-//   // typings:expect-error
-//   let isFido: AndThisOne = (name: string) => { return name === "Fido"};
-// })
+test("Writing some function types", ()=>{
+  /*
+   * ======================================================
+   * TODO: Update AndThisOne to allow a function that takes
+   * a string and returns a string.
+   * ======================================================*/
+  type AndThisOne = (name: string) => string;
+  let sayHello: AndThisOne = (name: string) => { return `Hello, ${name}.`}
+  let sayGoodbye: AndThisOne = (name: string) => { return `Goodbye, ${name}.`}
+  // typings:expect-error
+  let isFido: AndThisOne = (name: string) => { return name === "Fido"};
+})
