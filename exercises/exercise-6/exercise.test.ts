@@ -59,6 +59,15 @@ import { Starving, Hungry, Peckish, Full, HungerState, Transition, quickestRoute
  * in the exercise.
  */
 const REPLACEME: any = null;
+// {
+//   name: 'string',
+//   sleep: undefined,
+//   eatSnack: undefined,
+//   eatMeal: undefined,
+//   // sleep() { return this; },
+//   // eatSnack() { return this; },
+//   // eatMeal() { return this; },
+// };
 
 
 /*
@@ -72,12 +81,15 @@ property is optional. Let's take a closer look at what that means.
 Let's explore what this interface will let us declare.
 */
 test("1. Optional properties", () => {
-  const stateWithNoTransitions: HungerState = REPLACEME;
+  const stateWithNoTransitions: HungerState = { name: 'test' };
   expect(stateWithNoTransitions).not.toHaveProperty('sleep')
   expect(stateWithNoTransitions).not.toHaveProperty('eatMeal')
   expect(stateWithNoTransitions).not.toHaveProperty('eatSnack')
 
-  const stateWithSleepTransition: HungerState = REPLACEME;
+  const stateWithSleepTransition: HungerState = {
+    name: 'string',
+    sleep() { return this; },
+  };
   expect('sleep' in stateWithSleepTransition).toBeTruthy()
   expect('eatMeal' in stateWithSleepTransition).toBeFalsy()
   expect('eatSnack' in stateWithSleepTransition).toBeFalsy()
@@ -95,16 +107,18 @@ You'll probably find following the transitions to be less convenient than you ex
 Use TypeScript's type narrowing for `if` and ternary conditionals to
 solve type errors.
 */
-// test("2. I'm protected from using HungerState's in ways that may be invalid", () => {
+test("2. I'm protected from using HungerState's in ways that may be invalid", () => {
 //   const hungry: HungerState = { }
 //   const full: HungerState = { }
+  const hungry = new Hungry();
+  const full = new Full();
 
-//   let state = hungry;
-//   REPLACEME
-//   expect(state.name).toEqual("full")
-//   REPLACEME
-//   expect(state.name).toEqual("hungry")
-// })
+  let state: Starving | Hungry | Peckish | Full = hungry;
+  state = state.eatSnack().eatSnack();
+  expect(state.name).toEqual("full")
+  state = state.sleep().eatSnack();
+  expect(state.name).toEqual("hungry")
+})
 
 
 /*
@@ -137,37 +151,37 @@ providing the appropriate transitions. The class skeletons
 are provided for you in the code file for this exercise.
 */
 
-// test("3a. Implement Starving", () => {
-//   const state = new Starving();
-//   expect(state.name).toEqual("starving")
-//   expect(state.eatSnack()).toBeInstanceOf(Hungry)
-//   expect(state.eatMeal()).toBeInstanceOf(Full)
-//   expect(state).not.toHaveProperty("sleep")
-// });
+test("3a. Implement Starving", () => {
+  const state = new Starving();
+  expect(state.name).toEqual("starving")
+  expect(state.eatSnack()).toBeInstanceOf(Hungry)
+  expect(state.eatMeal()).toBeInstanceOf(Full)
+  expect(state).not.toHaveProperty("sleep")
+});
 
-// test("3b. Implement Hungry", () => {
-//   const state = new Hungry();
-//   expect(state.name).toEqual("hungry")
-//   expect(state.eatSnack()).toBeInstanceOf(Peckish)
-//   expect(state.eatMeal()).toBeInstanceOf(Full)
-//   expect(state).not.toHaveProperty("sleep")
-// });
+test("3b. Implement Hungry", () => {
+  const state = new Hungry();
+  expect(state.name).toEqual("hungry")
+  expect(state.eatSnack()).toBeInstanceOf(Peckish)
+  expect(state.eatMeal()).toBeInstanceOf(Full)
+  expect(state).not.toHaveProperty("sleep")
+});
 
-// test("3c. Implement Peckish", () => {
-//   const state = new Peckish();
-//   expect(state.name).toEqual("peckish")
-//   expect(state.eatSnack()).toBeInstanceOf(Full)
-//   expect(state).not.toHaveProperty('eatMeal')
-//   expect(state).not.toHaveProperty("sleep")
-// });
+test("3c. Implement Peckish", () => {
+  const state = new Peckish();
+  expect(state.name).toEqual("peckish")
+  expect(state.eatSnack()).toBeInstanceOf(Full)
+  expect(state).not.toHaveProperty('eatMeal')
+  expect(state).not.toHaveProperty("sleep")
+});
 
-// test("3d. Implement Full", () => {
-//   const state = new Full();
-//   expect(state.name).toEqual("full")
-//   expect(state).not.toHaveProperty("eatSnack")
-//   expect(state).not.toHaveProperty('eatMeal')
-//   expect(state.sleep()).toBeInstanceOf(Starving)
-// });
+test("3d. Implement Full", () => {
+  const state = new Full();
+  expect(state.name).toEqual("full")
+  expect(state).not.toHaveProperty("eatSnack")
+  expect(state).not.toHaveProperty('eatMeal')
+  expect(state.sleep()).toBeInstanceOf(Starving)
+});
 
 
 /*
@@ -180,22 +194,22 @@ Classes in typescript are really a combination of a few different things:
 
 For a class such as `Starving`, we can use the name in two ways.
 
-As a value, where we're referring to the class constructor function itself. 
+As a value, where we're referring to the class constructor function itself.
 As a type, we're referring to the shape of _instances_ of the class.
 
 Let's exercise our new classes by walking through a hunger cycle using our classes directly.
 
 */
-// test("4. Can walk through each state with specific type awareness", () => {
-//   const state0 = new Starving;
-//   type _0 = AssertAssignable<Starving, typeof state0>;
-//   const state1 = state0.eatSnack();
-//   type _1 = AssertAssignable<Hungry, typeof state1>;
-//   // ... continue //
-//   const finalState = REPLACEME;
-//   expect(finalState).toBeInstanceOf(Starving)
-//   type _endType = AssertAssignable<Starving, typeof finalState>;
-// })
+test("4. Can walk through each state with specific type awareness", () => {
+  const state0 = new Starving();
+  type _0 = AssertAssignable<Starving, typeof state0>;
+  const state1 = state0.eatSnack();
+  type _1 = AssertAssignable<Hungry, typeof state1>;
+  // ... continue //
+  const finalState = state1.eatMeal().sleep();
+  expect(finalState).toBeInstanceOf(Starving)
+  type _endType = AssertAssignable<Starving, typeof finalState>;
+})
 
 
 
@@ -210,12 +224,13 @@ Or, you can add a `!` at the end of any value which might be null/undefined
 to tell typescript to assume it's present.
 
 */
-// test(`5. Can advance through the whole state machine generically if transitions are checked for validity`, () => {
-//   let state : HungerState = new Starving();
+test(`5. Can advance through the whole state machine generically if transitions are checked for validity`, () => {
+  let state : HungerState = new Starving();
 
-//   // TODO: Advance through an entire day of hunger
-//   expect(state).toBeInstanceOf(Starving);
-// });
+  // TODO: Advance through an entire day of hunger
+  // what^?
+  expect(state).toBeInstanceOf(Starving);
+});
 
 
 /*
