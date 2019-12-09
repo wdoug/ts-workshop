@@ -38,13 +38,13 @@ test("literals in control flow", () => {
   }
 });
 
-// /**************************************************************************/
+/**************************************************************************/
 test("describes a literal", () => {
   /*
    * ======================================================
    * TODO: Update FixThisType to allow only a single literal.
    * ======================================================*/
-  type FixThisType = "hello";
+  type FixThisType = string;
 
   let hello: FixThisType = "hello";
 
@@ -57,9 +57,9 @@ test("describes a literal", () => {
   // typings:expect-error
   let moon: FixThisType = "moon";
 });
-// /**************************************************************************/
+/**************************************************************************/
 
-// /**************************************************************************/
+/**************************************************************************/
 test("manually creating union types", () => {
   /*
    * We can describe union types ourselves, and
@@ -67,7 +67,7 @@ test("manually creating union types", () => {
    * ======================================================
    * TODO: Update FixThisType to allow strings or numbers.
    * ======================================================*/
-  type FixThisType = string | number;
+  type FixThisType = any;
 
   let aString: FixThisType = "hello";
   let anotherString: FixThisType = "world";
@@ -77,9 +77,9 @@ test("manually creating union types", () => {
   // typings:expect-error
   let aBool: FixThisType = true;
 });
-// /**************************************************************************/
+/**************************************************************************/
 
-// /**************************************************************************/
+/**************************************************************************/
 test("this allows us to constrain types in interesting ways", () => {
   /*
    * Being able to union together any valid types means
@@ -87,7 +87,7 @@ test("this allows us to constrain types in interesting ways", () => {
    * ======================================================
    * TODO: Update FixThisType to make this type test pass.
    * ======================================================*/
-  type FixThisType = true | "this string";
+  type FixThisType = any;
 
   let aTrue: FixThisType = true;
 
@@ -100,15 +100,15 @@ test("this allows us to constrain types in interesting ways", () => {
   // typings:expect-error
   let aFalse: FixThisType = false;
 });
-// /**************************************************************************/
+/**************************************************************************/
 
-// /**************************************************************************/
+/**************************************************************************/
 test("unions can be between types of any shape", () => {
   /*
    * ======================================================
    * TODO: Update Earthlings to allow these values:
    * ======================================================*/
-  type Earthlings = { name: string, type: "animal"|"vegetable"|"mineral"};
+  type Earthlings = {};
   let dog: Earthlings = { type: "animal", name: "Fido" };
   let cat: Earthlings = { type: "animal", name: "Suki" };
   let zucchini: Earthlings = {
@@ -128,7 +128,7 @@ test("unions can be between types of any shape", () => {
    * ======================================================
    * TODO: Update Aliens to allow these values:
    * ======================================================*/
-  type Aliens = { homePlanet: string, phaser: boolean };
+  type Aliens = {};
 
   let alienBlaxnor: Aliens = {
     homePlanet: "Jupiter",
@@ -159,7 +159,7 @@ test("unions can be between types of any shape", () => {
     name: "Asteroid"
   };
 });
-// /**************************************************************************/
+/**************************************************************************/
 
 /**************************************************************************/
 test("basic intersection", () => {
@@ -188,8 +188,8 @@ test("basic intersection", () => {
    * TODO: Describe a valid PetCat and PetDog below.
    * HINT: Use autocompletion to help you fill in the properties.
    * ======================================================*/
-  const sukiTheCat: PetCat = { name: "suki", familyName: 'cat', coloration: 'tabby', animalType: 'cat', breedName: 'a breed' };
-  const finnTheDog: PetDog = { name: 'finn', animalType: 'dog', size: 'teacup', breedName: 'corgi', familyName: 'family' };
+  const sukiTheCat: PetCat = {};
+  const finnTheDog: PetDog = {};
 
   function announcePet(pet: PetInfo) {
     return `This is ${pet.familyName} family pet, ${pet.name}.`;
@@ -203,7 +203,7 @@ test("basic intersection", () => {
 });
 /**************************************************************************/
 
-// /**************************************************************************/
+/**************************************************************************/
 test("type narrowing and exhaustiveness", () => {
   function classify(n: number) {
     if (n < 0) return "negative";
@@ -239,7 +239,7 @@ test("type narrowing and exhaustiveness", () => {
    * TODO: Change ONLY the input FruitColor to prove that the
    * function below will always return one of these two strings.
    * ======================================================*/
-  type FruitColor = "red" | "yellow";
+  type FruitColor = string;
 
   function appleOrBanana(fruitColor: FruitColor): "apple" | "banana" {
     switch (fruitColor) {
@@ -259,9 +259,9 @@ test("type narrowing and exhaustiveness", () => {
    * the codebase.
    */
 });
-// /**************************************************************************/
+/**************************************************************************/
 
-// /**************************************************************************/
+/**************************************************************************/
 test("working with discriminated unions", () => {
   /*
    * Let's take a look at the HotDrink type described in the slides.
@@ -287,14 +287,7 @@ test("working with discriminated unions", () => {
    */
   function describe(
     drink: HotDrink
-  ): "green" | "black" | "herbal" | "dark" | "medium" | "light" {
-    switch (drink.type) {
-      case 'tea':
-        return drink.style;
-      case 'coffee':
-        return drink.roast;
-    }
-  }
+  ): "green" | "black" | "herbal" | "dark" | "medium" | "light" {}
 
   const rachaelsDrink: Tea = {name: "Chamomile", style: "herbal", type: "tea"}
   const drewsDrink: Coffee = {name: "Sparrows Blend", roast: "light", type: "coffee"}
@@ -302,9 +295,9 @@ test("working with discriminated unions", () => {
   expect(describe(rachaelsDrink)).toEqual("herbal");
   expect(describe(drewsDrink)).toEqual("light");
 });
-// /**************************************************************************/
+/**************************************************************************/
 
-// /**************************************************************************/
+/**************************************************************************/
 test("build a discriminated union", () => {
   /*
    * TS can narrow types as we move through control flow. When
@@ -322,7 +315,7 @@ test("build a discriminated union", () => {
    * and bananas are yellow and can be peeled.
    * ======================================================
    */
-  type FruitType = { type: 'apple', color: "red", polish(): void } | { type: 'banana', color: 'yellow', peel(): void };
+  type FruitType = any;
 
   function doSomething(fruit: FruitType) {
     switch (fruit.type) {
@@ -352,7 +345,7 @@ test("build a discriminated union", () => {
     }
   }
 });
-// /**************************************************************************/
+/**************************************************************************/
 
 /**************************************************************************/
 test("unions & intersections", () => {
@@ -377,7 +370,7 @@ test("unions & intersections", () => {
    * TODO: Write a type that describes both pet cats and pet dogs.
    * ======================================================
    */
-  type Pet = (Cat | Dog) & PetInfo;
+  type Pet = any;
 
   /*
    * What if we want to be able to announce cats and dogs in more detail?
@@ -386,15 +379,7 @@ test("unions & intersections", () => {
    * them in detail. Use the tests below to drive your implementation.
    * ======================================================
    */
-  function announcePetDetail(pet: Pet) {
-    let description;
-    if (pet.animalType === 'cat') {
-      description = `${pet.coloration} ${pet.breedName}`;
-    } else {
-      description = `${pet.size} ${pet.breedName}`;
-    }
-    return `This is the ${pet.familyName} family ${pet.animalType}, ${pet.name} the ${description}.`
-  }
+  function announcePetDetail(pet: Pet) {}
 
   expect(
     announcePetDetail({
@@ -418,7 +403,7 @@ test("unions & intersections", () => {
   ).toEqual("This is the Brockett family dog, Stella the standard Pitbull.");
 
   /* Extra credit: Find a different way to describe your Pet type. */
-  type AltPet = Cat & PetInfo | Dog & PetInfo;
+  type AltPet = any;
 
   type _t1 = AssertAssignable<AltPet, Pet>;
   type _t2 = AssertAssignable<Pet, AltPet>;
